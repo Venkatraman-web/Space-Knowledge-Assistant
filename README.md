@@ -9,7 +9,7 @@ An AI-powered chatbot that answers space-related questions using **Retrieval-Aug
 * 🌌 Ask natural language questions about space and astronomy
 * 🧠 Semantic search using vector embeddings
 * 📚 Retrieval-Augmented Generation (RAG)
-* 🤖 Supports multiple local LLMs via **Ollama**
+* 🤖 Supports multiple Gemini models via the **Gemini API**
 * 🔍 Switch between different embedding models
 * ⚡ Streaming responses for a smooth chat experience
 * 📖 Displays retrieved reference chunks
@@ -24,9 +24,9 @@ An AI-powered chatbot that answers space-related questions using **Retrieval-Aug
 | --------------- | ------------------------------------ |
 | Frontend        | Streamlit                            |
 | Backend         | Python                               |
-| LLM             | Ollama (Llama 2, Llama 3.2)          |
+| LLM             | Gemini API (2.5 Flash, 2.5 Pro)      |
 | Vector Database | ChromaDB                             |
-| Embeddings      | Chroma Default, Nomic Embed Text     |
+| Embeddings      | Chroma Default, Gemini Embedding     |
 | Data Processing | Pandas                               |
 | Dataset         | CSV-based Space Facts Knowledge Base |
 
@@ -53,7 +53,7 @@ An AI-powered chatbot that answers space-related questions using **Retrieval-Aug
                   Retrieve Relevant Facts
                            │
                            ▼
-                  Ollama (Llama 2 / 3.2)
+                   Gemini API
                            │
                            ▼
                  Context-Aware Response
@@ -114,19 +114,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Install Ollama
+### 4. Configure Gemini
 
-Download Ollama from:
-
-https://ollama.com
-
-Pull the required models:
+Create an API key in [Google AI Studio](https://aistudio.google.com/apikey) and put it in a `.env` file next to `chatbot.py`:
 
 ```bash
-ollama pull llama3.2
-ollama pull llama2
-ollama pull nomic-embed-text
+GEMINI_API_KEY=your_api_key_here
 ```
+
+Optional: set `GEMINI_EMBED_MODEL` to change the embedding model (default `gemini-embedding-001`).
 
 ---
 
@@ -147,7 +143,7 @@ streamlit run ui.py
 3. The embeddings are stored in a persistent ChromaDB collection.
 4. When a user asks a question, the query is embedded.
 5. ChromaDB retrieves the most semantically relevant facts.
-6. The retrieved context is provided to the selected Ollama language model.
+6. The retrieved context is provided to the selected Gemini model.
 7. The model generates a concise, context-aware answer.
 8. The application streams the response while displaying the retrieved references.
 
@@ -171,7 +167,7 @@ Retrieve Relevant Facts
 Augment Prompt
       │
       ▼
-Llama 2 / Llama 3.2
+Gemini 2.5 Flash / Pro
       │
       ▼
 Generate Response
