@@ -22,8 +22,8 @@ st.selectbox("", ["📚 Available Space Facts"])
 query = st.text_input("Enter your question about space: ", placeholder="e.g., What is the Hubble Space Telescope?")
 
 st.sidebar.title("Model Configuration")
-modeltype = st.sidebar.radio("Select LLM Model:", ["Ollama Llama2", "Ollama Llama3.2"], index=1)
-embedmodel = st.sidebar.radio("Select Embedding Model:", ["Chroma Default", "Nomic Emebed Text(Ollama)"], index=1)
+modeltype = st.sidebar.radio("Select LLM Model:", ["Gemini 2.5 Flash", "Gemini 2.5 Pro"], index=0)
+embedmodel = st.sidebar.radio("Select Embedding Model:", ["Chroma Default", "Gemini Embedding"], index=1)
 
 # if query:
 #     with st.spinner("Processing your query..."):
@@ -51,14 +51,13 @@ if query:
         buffer = ""
 
         for chunk in response:
-            if hasattr(chunk, "message"):
-                buffer += chunk.message.content
+            buffer += chunk
 
-                if len(buffer) > 20 or buffer.endswith((" ", ".", "\n")):
-                    current_text += buffer
-                    placeholder.write(current_text)
-                    buffer = ""
-                    time.sleep(0.015)
+            if len(buffer) > 20 or buffer.endswith((" ", ".", "\n")):
+                current_text += buffer
+                placeholder.write(current_text)
+                buffer = ""
+                time.sleep(0.015)
 
         if buffer:
             current_text += buffer
